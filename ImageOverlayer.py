@@ -25,7 +25,7 @@ parser.add_argument(
     "--width",
     type=int,
     default=512,
-    help="Width to resize images to",
+    help="Width to resize images to.",
 )
 parser.add_argument(
     "--height",
@@ -43,10 +43,10 @@ parser.add_argument(
     "--chunk_size",
     type=int,
     default=400,
-    help="Number of images to use per chunk.",
+    help="Number of images to use per chunk. Not more images than chunk_size+threads will be in ram at once.",
 )
 parser.add_argument('--autosize', action="store_true", help='Find the average width and height of all images and use this for the final image.')
-parser.add_argument('--chunks', action="store_true", help='The number of chunks of size chunk_size needed to hold all images.')
+parser.add_argument('--chunks', action="store_true", help='Enables chunk mode. This allows the overlaying of an unlimited number of images. chunk_size+threads is the maximum number of images in ram at any point.')
 args = parser.parse_args()
 
 # Catch issues in arguments.
@@ -74,7 +74,7 @@ def divide_chunks(images, n, e):
         chunks.append(images[i:i + n])
         num += 1
     
-    # Append the extra images to the first chunk, to an additional one at the end if in chunked mode.
+    # Append the extra images to the first chunk.
     if(e != 0):
         for i in range(len(images)-e, len(images), 1):
             chunks[0].append(images[i])
